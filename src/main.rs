@@ -5,7 +5,7 @@ mod day1;
 mod day2;
 
 fn main() {
-    let challenges = [day1::part1, day1::part2, day2::part1];
+    let challenges = [day1::part1, day1::part2, day2::part1, day2::part2];
 
     let args: Vec<String> = env::args().collect();
     if args.is_empty() {
