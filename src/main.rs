@@ -3,9 +3,16 @@ use std::{env, process};
 mod common;
 mod day1;
 mod day2;
+mod day3;
 
 fn main() {
-    let challenges = [day1::part1, day1::part2, day2::part1, day2::part2];
+    let challenges = [
+        day1::part1,
+        day1::part2,
+        day2::part1,
+        day2::part2,
+        day3::part1,
+    ];
 
     let args: Vec<String> = env::args().collect();
     if args.is_empty() {
