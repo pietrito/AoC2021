@@ -1,4 +1,4 @@
-use std::fmt::Debug;
+use std::fmt::{Debug, Display};
 use std::fs::File;
 use std::io::{self, BufRead};
 
@@ -19,4 +19,18 @@ where
         .collect();
 
     out
+}
+
+struct Challenge {
+    input_path: String,
+    day: usize,
+}
+
+pub trait Solver<T> {
+    fn part1(&self, input: &str) -> T
+    where
+        T: Display;
+    fn part2(&self, input: &str) -> T
+    where
+        T: Display;
 }

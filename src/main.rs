@@ -1,17 +1,18 @@
-use std::{env, process};
+use std::{env, fs, process};
 
-mod common;
+// mod common;
 mod day1;
 mod day2;
 mod day3;
 
 fn main() {
     let challenges = [
-        day1::part1,
-        day1::part2,
-        day2::part1,
-        day2::part2,
-        day3::part1,
+        ("Day 1 - Part 1", "1", day1::part1 as fn(&str) -> String),
+        ("Day 1 - Part 2", "1", day1::part2),
+        ("Day 2 - Part 1", "2", day2::part1),
+        ("Day 2 - Part 2", "2", day2::part2),
+        ("Day 3 - Part 1", "3", day3::part1),
+        ("Day 3 - Part 2", "3", day3::part2),
     ];
 
     let args: Vec<String> = env::args().collect();
@@ -20,13 +21,38 @@ fn main() {
         process::exit(exitcode::OSERR);
     } else if args.len() == 1 {
         println!("Running all the days:");
-        challenges.iter().for_each(|x| x());
+        challenges.iter().for_each(|(name, input_file, function)| {
+            println!(
+                "{}: {}",
+                name,
+                function(
+                    &fs::read_to_string(format!("inputs/{}", input_file))
+                        .expect("Error reading input file.")
+                )
+            )
+        });
     } else if args.len() == 2 {
         if let Ok(day) = args[1].parse::<usize>() {
             println!("Running day {}", day);
 
-            challenges[day * 2 - 2]();
-            challenges[day * 2 - 1]();
+            let (name, input_file, function) = challenges[day * 2 - 2];
+            println!(
+                "{}: {}",
+                name,
+                function(
+                    &fs::read_to_string(format!("inputs/{}", input_file))
+                        .expect("Error reading input file.")
+                )
+            );
+            let (name, input_file, function) = challenges[day * 2 - 1];
+            println!(
+                "{}: {}",
+                name,
+                function(
+                    &fs::read_to_string(format!("inputs/{}", input_file))
+                        .expect("Error reading input file.")
+                )
+            );
         } else {
             eprintln!("Error: '{}' is not a valid day number.", args[1]);
             process::exit(exitcode::USAGE);
