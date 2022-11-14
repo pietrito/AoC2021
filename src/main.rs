@@ -4,6 +4,7 @@ use std::{env, fs, process};
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 
 fn main() {
     let challenges = [
@@ -13,6 +14,8 @@ fn main() {
         ("Day 2 - Part 2", "2", day2::part2),
         ("Day 3 - Part 1", "3", day3::part1),
         ("Day 3 - Part 2", "3", day3::part2),
+        ("Day 4 - Part 1", "4", day4::part1),
+        ("Day 4 - Part 2", "4", day4::part2),
     ];
 
     let args: Vec<String> = env::args().collect();
