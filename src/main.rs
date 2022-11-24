@@ -8,6 +8,7 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
+mod day8;
 
 fn main() {
     let challenges = [
@@ -25,6 +26,7 @@ fn main() {
         ("Day 6 - Part 2", "6", day6::part2),
         ("Day 7 - Part 1", "7", day7::part1),
         ("Day 7 - Part 2", "7", day7::part2),
+        ("Day 8 - Part 1", "8", day8::part1),
     ];
 
     let args: Vec<String> = env::args().collect();
