@@ -27,6 +27,7 @@ fn main() {
         ("Day 7 - Part 1", "7", day7::part1),
         ("Day 7 - Part 2", "7", day7::part2),
         ("Day 8 - Part 1", "8", day8::part1),
+        ("Day 8 - Part 2", "8", day8::part2),
     ];
 
     let args: Vec<String> = env::args().collect();
