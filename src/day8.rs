@@ -22,36 +22,6 @@ pub fn part1(input: &str) -> String {
         .to_string()
 }
 
-/**
- *   0:      1:      2:      3:      4:
- *  AAAA    ....    AAAA    AAAA    ....
- * B    C  .    C  .    C  .    C  B    C
- * B    C  .    C  .    C  .    C  B    C
- *  ....    ....    DDDD    DDDD    DDDD
- * E    F  .    F  E    .  .    F  .    F
- * E    F  .    F  E    .  .    F  .    F
- *  GGGG    ....    GGGG    GGGG    ....
- *
- *   5:      6:      7:      8:      9:
- *  AAAA    AAAA    AAAA    AAAA    AAAA
- * B    .  B    .  .    C  B    C  B    C
- * B    .  B    .  .    C  B    C  B    C
- *  DDDD    DDDD    ....    DDDD    DDDD
- * .    F  E    F  .    F  E    F  .    F
- * .    F  E    F  .    F  E    F  .    F
- *  GGGG    GGGG    ....    GGGG    GGGG
- *
- *  Frequencies:
- *  A: 8    <- Done
- *  B: 6*   <- Done
- *  C: 8    <- Done
- *  D: 7
- *  E: 4*   <- Done
- *  F: 9*   <- Done
- *  G: 7
- *
- */
-
 fn pattern_to_wire(pattern: u8) -> u32 {
     match pattern {
         0b1110111 => 0,
@@ -68,6 +38,8 @@ fn pattern_to_wire(pattern: u8) -> u32 {
     }
 }
 
+/// For each entry, determine all of the wire/segment connections and decode the four-digit output
+/// values. What do you get if you add up all of the output values?
 pub fn part2(input: &str) -> String {
     let mut final_sum: u32 = 0;
 
@@ -78,25 +50,26 @@ pub fn part2(input: &str) -> String {
 
         let mut wire_map: HashMap<char, u8> = HashMap::new();
 
-        // Find the 3 unique frequencies
+        // The segment B as a unique frequency of 6
         let real_b = "abcdefg"
             .chars()
             .map(|c| (c, signals.join("").matches(c).count()))
             .find_map(|(c, count)| if count == 6 { Some(c) } else { None })
             .unwrap();
+        wire_map.insert(real_b, 1 << 5);
+        // The segment E as a unique frequency of 4
         let real_e = "abcdefg"
             .chars()
             .map(|c| (c, signals.join("").matches(c).count()))
             .find_map(|(c, count)| if count == 4 { Some(c) } else { None })
             .unwrap();
+        wire_map.insert(real_e, 1 << 2);
+        // The segment F as a unique frequency of 9
         let real_f = "abcdefg"
             .chars()
             .map(|c| (c, signals.join("").matches(c).count()))
             .find_map(|(c, count)| if count == 9 { Some(c) } else { None })
             .unwrap();
-
-        wire_map.insert(real_b, 1 << 5);
-        wire_map.insert(real_e, 1 << 2);
         wire_map.insert(real_f, 1 << 1);
 
         // Find the A segment using the exclusive difference of signals 1 and 7.
@@ -108,7 +81,6 @@ pub fn part2(input: &str) -> String {
             .iter()
             .find(|s| s.len() == 3)
             .expect("Should be a single signal pattern with length 3.");
-
         let real_a = seven.chars().find(|c| !one.contains(*c)).unwrap();
         wire_map.insert(real_a, 1 << 6);
 
@@ -177,5 +149,10 @@ gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
     #[test]
     fn test_example2() {
         assert_eq!(part2(INPUT), "61229");
+    }
+
+    #[test]
+    fn test_part2() {
+        assert_eq!(part2(include_str!("../inputs/8")), "961734");
     }
 }
